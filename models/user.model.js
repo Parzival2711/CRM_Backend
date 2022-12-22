@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const uniqueValidator = require('mongoose-unique-validator');
+const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     name : {
         type : String,
@@ -7,7 +9,7 @@ const userSchema = new mongoose.Schema({
     userId : {
         type : String,
         required : true,
-        unique : true
+        unique : true,
     },
     password : {
         type : String,
@@ -53,5 +55,8 @@ const userSchema = new mongoose.Schema({
         default : "APPROVED"
     }
 })
-
+userSchema.methods.comparePassword = function(password){
+    return bcrypt.compareSync(password,this.password);
+};
+userSchema.plugin(uniqueValidator,{type:'mongoose-unique-validator'});
 module.exports = mongoose.model("User",userSchema);
