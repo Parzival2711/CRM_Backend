@@ -16,3 +16,23 @@ exports.isAdmin = async(req,res,next)=>{
         return;
     }
 };
+//Validate the body of the update request
+exports.validateUpdate = async(req,res,next)=>{
+    if(req.url.includes("admin")){
+        if(req.body.password || req.body.contact){
+            res.status(500).send({
+                message:"Personal data fields should be updated by user"
+            })
+            return;
+        }
+    }
+    else if(req.url.includes("user")){
+        if(req.body.userType || req.body.userStatus || req.body.email){
+            res.status(500).send({
+                message:"Only personal field updations allowed.Please contact admin for rest."
+            })
+            return;
+        }
+    }
+    next();
+}
