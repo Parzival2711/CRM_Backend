@@ -19,11 +19,18 @@ exports.isAdmin = async(req,res,next)=>{
 //Validate the body of the update request
 exports.validateUpdate = async(req,res,next)=>{
     if(req.url.includes("admin")){
+        //For users
         if(req.body.password || req.body.contact){
             res.status(500).send({
                 message:"Personal data fields should be updated by user"
             })
             return;
+        }
+        ///For tickets
+        else if(req.body.reporter || req.body.ticketId){
+            res.status(500).send({
+                message:"Reporter or Ticket Id can't be updated"
+            })
         }
     }
     else if(req.url.includes("user")){
