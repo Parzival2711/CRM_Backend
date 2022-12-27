@@ -42,5 +42,5 @@ const ticketSchema = new mongoose.Schema({
         default : Date.now()
     }
 })
-userSchema.plugin(uniqueValidator,{type:'mongoose-unique-validator'});
+ticketSchema.plugin(uniqueValidator,{type:'mongoose-unique-validator'});
 module.exports = mongoose.model("Ticket",ticketSchema);
